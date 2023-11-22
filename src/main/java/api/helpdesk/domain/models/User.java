@@ -1,12 +1,12 @@
 package api.helpdesk.domain.models;
 
+
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "user")
+@Entity(name = "users")
 public class User {
     @Id
-    @GeneratedValue ( strategy = GenerationType.IDENTITY)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
     
     @Column(name = "name")
@@ -16,12 +16,19 @@ public class User {
     private String login;
 
     @Column(name = "senha")
-    private String senha;
+    private String password;
 
-    @OneToMany
-    @JoinColumn(name = "departament_id")
-    private Departament departament;
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
+    @ManyToOne
+    @JoinColumn(name = "departamento_id")
+    private Departament departamento;
+    
     public User () {
 
     }
@@ -49,11 +56,5 @@ public class User {
         this.login = login;
     }
 
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+    
 }
