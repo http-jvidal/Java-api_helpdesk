@@ -12,8 +12,9 @@ import api.helpdesk.domain.models.User;
 import api.helpdesk.services.UserService;
 
 @RestController
+@CrossOrigin(origins =  {"http://localhost:4200"})
 @RequestMapping("/users")
-@CrossOrigin(origins =  "http://localhost:4200")
+
 public class UserController {
 
     @Autowired
