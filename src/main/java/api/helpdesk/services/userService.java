@@ -1,15 +1,19 @@
 package api.helpdesk.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import api.helpdesk.domain.models.User;
 
 public interface UserService {
 
-    User findById (Long id);
+    Optional<User> findById (Long id);
     
-    User createUser (User user);
+    void createUser (User user);
 
     List<User> findAll();
     
+    User findByName(String name);
+
+    List<User> findByNameContainingIgnoreCase(String name);
 }

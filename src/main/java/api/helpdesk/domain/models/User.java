@@ -1,12 +1,15 @@
 package api.helpdesk.domain.models;
 
 
-import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.*;
 @Entity(name = "users")
 public class User {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
     
     @Column(name = "name")
@@ -28,6 +31,11 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "departamento_id")
     private Departament departamento;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "tab_user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role_id")
+    private List<String> roles = new ArrayList<>();
     
     public User () {
 
