@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import api.helpdesk.domain.models.User;
@@ -17,40 +16,68 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private final UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder encoder;
-    
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+
     @Override
-    public Optional<User> findById(Long id) {
+    public Optional<User> findById(Long id){
+        if(!userRepository.existsById(id)){
+            throw new IllegalArgumentException("Id Not Found");
+        } else {
             Optional<User> user  = userRepository.findById(id);
             return user;
+        }
     }
 
     public void createUser(User user){
-        String pass = user.getPassword();
-        user.setPassword(encoder.encode(pass));
-        userRepository.save(user);
+            userRepository.save(user);
     }
     
     public List<User> findAll(){
         List<User> res = userRepository.findAll();
-            return res;
+        return res;
+        
     }
 
     @Override
     public User findByName(String name) {
-        User res = userRepository.findByName(name);
+        if(!userRepository.existsByName(name)){
+            throw new IllegalArgumentException("This username not exists");
+        } else {
+            User res = userRepository.findByName(name);
             return res;
+        }
+        
     }
 
     @Override
     public List<User> findByNameContainingIgnoreCase(String name) {
-        List<User> res = userRepository.findByNameContainingIgnoreCase(name);
+        if(!userRepository.existsByName(name)){
+            throw new IllegalArgumentException("This user not exists");
+        } else {
+            List<User> res = userRepository.findByNameContainingIgnoreCase(name);
             return res;
+        }
+        
     }
+
+    @Override
+    public void delete(Long id) {
+        if(!userRepository.existsById(id)){
+            throw new IllegalArgumentException("This Id not exists");
+        } else {
+            userRepository.deleteById(id);
+        }
+    }
+
+
+    @Override
+    public User update(User user) {
+        User userUpdate = userRepository.save(user);
+        return userUpdate;
+    }
+
 
 }

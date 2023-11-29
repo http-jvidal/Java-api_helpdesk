@@ -1,9 +1,5 @@
 package api.helpdesk.domain.models;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.*;
 @Entity(name = "users")
 public class User {
@@ -32,11 +28,6 @@ public class User {
     @JoinColumn(name = "departamento_id")
     private Departament departamento;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "tab_user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role_id")
-    private List<String> roles = new ArrayList<>();
-    
     public User () {
 
     }
