@@ -5,25 +5,18 @@ import jakarta.persistence.*;
 public class Departament {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
     
-    @Column(name = "departament")
-    private String departament;
+    @Column(name = "name")
+    private String name;
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getDepartament() {
-        return departament;
+        return name;
     }
 
-    public void setDepartament(String departament) {
-        this.departament = departament;
-    }
 }

@@ -12,7 +12,7 @@ import api.helpdesk.domain.models.User;
 import api.helpdesk.services.UserService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 @CrossOrigin(origins =  {"http://localhost:4200"})
 public class UserController {
 
@@ -23,12 +23,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users")
+    @GetMapping
     public List<User> FindAll(){
         return userService.findAll();    
     }
 
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}")
     public ResponseEntity<User> FindById(@PathVariable Long id){
         Optional<User> user = userService.findById(id);
             if(user.isPresent())
@@ -40,20 +40,24 @@ public class UserController {
     @PostMapping("/signup")
     public String CreateUser (@RequestBody User user){
         userService.createUser(user);
-        return "User creater succesfully";
+        return "User created succesfully";
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public String deleteById(@PathVariable Long id){
         userService.delete(id);
         return "User deleted successfully";
 
     }
 
-    @PatchMapping("/patch")
-    public User update(@RequestBody User user){
-        User patch = userService.update(user);
-        return patch;
+    @PutMapping("/{id}")
+    public ResponseEntity<User> update(@PathVariable(value = "id") Long id, @RequestBody User user){
+        Optional<User> userId = userService.findById(id);
+        User res = userService.update(user);
+        if(userId.isPresent())
+            return ResponseEntity.ok(res);
+        else
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
     }
 }
