@@ -17,12 +17,11 @@ public class User {
     @Column(name = "senha")
     private String password;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "departamento_id")
     private Departament departamento;
 
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "chamados_id")
     private Chamados chamados;
 
