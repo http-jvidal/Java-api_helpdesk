@@ -17,16 +17,21 @@ public class User {
     @Column(name = "senha")
     private String password;
 
+    @ManyToOne
+    @JoinColumn(name = "departamento_id")
+    private Departament departamento;
+
+
+    @ManyToOne
+    @JoinColumn(name = "chamados_id")
+    private Chamados chamados;
+
     public String getPassword() {
         return password;
     }
     public void setPassword(String password) {
         this.password = password;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "departamento_id")
-    private Departament departamento;
 
     public User () {
 
@@ -53,6 +58,12 @@ public class User {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+    public Departament getDepartamento() {
+        return departamento;
+    }
+    public Chamados getChamados() {
+        return chamados;
     }
 
     
