@@ -38,23 +38,27 @@ public class UserController {
     }
     
     @PostMapping("/signup")
-    public String CreateUser (@RequestBody User user){
-        userService.createUser(user);
-        return "User created succesfully";
+    public ResponseEntity<User> CreateUser (@RequestBody User user, Long id){
+        Optional<User> userCreated = userService.findById(id);
+        if(!userCreated.isPresent()){
+            userService.createUser(user);
+            return new ResponseEntity<User>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<User>(HttpStatus.CONFLICT);
+
+        }
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Long id){
+    public ResponseEntity<User> deleteById(@PathVariable Long id){
         Optional<User> userId = userService.findById(id);
         if(userId.isPresent()){
             userService.delete(id);
             return ResponseEntity.noContent().build();
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
-    
-        
 
     }
 

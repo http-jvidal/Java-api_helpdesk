@@ -8,7 +8,7 @@ import api.helpdesk.domain.models.Ticket;
 public interface TicketService {
     Optional<Ticket> findById(Long id);
 
-    void createCalled(Ticket chamados);
+    Ticket createCalled(Ticket ticket);
 
     List<Ticket> findAll();
 

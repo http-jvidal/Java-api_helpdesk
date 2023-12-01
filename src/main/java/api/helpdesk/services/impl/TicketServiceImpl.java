@@ -32,11 +32,13 @@ public class TicketServiceImpl implements TicketService{
     }
 
     @Override
-    public void createCalled(Ticket ticket) {
+    public Ticket createCalled(Ticket ticket) {
         if(ticketRepository.existsById(ticket.getId()))
             throw new IllegalArgumentException("Ticket Id already exists");
-        else 
-            ticketRepository.save(ticket);
+        else {
+            return ticketRepository.save(ticket);
+        }
+            
     }
 
     @Override

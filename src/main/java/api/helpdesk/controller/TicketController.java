@@ -46,9 +46,14 @@ public class TicketController {
     }
 
     @PostMapping("create")
-    public String createCalled(@RequestBody Ticket ticket){
-        ticketService.createCalled(ticket);
-        return "Called created successfull";
+    public ResponseEntity<Ticket> createCalled(@RequestBody Ticket ticket, Long id){
+        Optional<Ticket> ticketId = ticketService.findById(id);
+        if(ticketId.isPresent()){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            ticketService.createCalled(ticket);
+            return ResponseEntity.noContent().build();
+        }   
     }
 
     @DeleteMapping("delete/{id}")
@@ -72,4 +77,5 @@ public class TicketController {
             return new ResponseEntity<Ticket>(HttpStatus.NOT_FOUND);
         }
     }
+
 }

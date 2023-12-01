@@ -7,6 +7,7 @@ import api.helpdesk.domain.models.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+    boolean existsById(Long id);
     boolean existsByName(String name);
     List<User> findAll();
     User findByName(String name);
