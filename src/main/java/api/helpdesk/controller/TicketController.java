@@ -62,8 +62,8 @@ public class TicketController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<Ticket> update(@PathVariable Long id, Ticket ticket){
+    @PutMapping("/{id}")
+    public ResponseEntity<Ticket> update(@PathVariable Long id, @RequestBody Ticket ticket){
         Optional<Ticket> ticketId = ticketService.findById(id);
         Ticket res = ticketService.update(ticket);
         if(ticketId.isPresent()){
