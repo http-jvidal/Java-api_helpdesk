@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 
 @Entity(name="chamados")
-public class Chamados {
+public class Ticket {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -59,5 +59,7 @@ public class Chamados {
     public void setEstado(Boolean estado) {
         this.estado = estado;
     }
+
+
     
 }

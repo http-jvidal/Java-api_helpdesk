@@ -22,8 +22,8 @@ public class User {
     private Departament departamento;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "chamados_id")
-    private Chamados chamados;
+    @JoinColumn(name = "ticket_id")
+    private Ticket ticket;
 
     public String getPassword() {
         return password;
@@ -61,8 +61,8 @@ public class User {
     public Departament getDepartamento() {
         return departamento;
     }
-    public Chamados getChamados() {
-        return chamados;
+    public Ticket getTicket() {
+        return ticket;
     }
 
     
