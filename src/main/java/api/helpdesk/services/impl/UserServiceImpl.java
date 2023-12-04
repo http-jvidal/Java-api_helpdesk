@@ -32,13 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public User createUser(User user){
-        User userToCreate = userRepository.save(user);
-        if(userRepository.existsById(user.getId())){
-            throw new IllegalArgumentException("User already Exists");
-        }
-        else {
-            return userToCreate;
-        }
+        return userRepository.save(user);
         
     }
     

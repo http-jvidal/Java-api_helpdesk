@@ -20,7 +20,6 @@ public class Ticket {
     @Column(name = "estado")
     Boolean estado;
 
-
     public Long getId() {
         return id;
     }

@@ -49,7 +49,7 @@ public class TicketController {
     public ResponseEntity<Ticket> createCalled(@RequestBody Ticket ticket, Long id){
         Optional<Ticket> ticketId = ticketService.findById(id);
         if(ticketId.isPresent()){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Ticket>(HttpStatus.BAD_REQUEST);
         } else {
             ticketService.createCalled(ticket);
             return ResponseEntity.noContent().build();
@@ -63,7 +63,7 @@ public class TicketController {
             ticketService.delete(id);
             return ResponseEntity.noContent().build();
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Ticket>(HttpStatus.NOT_FOUND);
         }
     }
 

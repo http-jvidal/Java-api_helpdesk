@@ -28,7 +28,7 @@ public class UserController {
         return userService.findAll();    
     }
 
-    @RequestMapping(value = "/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<User> FindById(@PathVariable Long id){
         Optional<User> user = userService.findById(id);
             if(user.isPresent())
@@ -37,16 +37,15 @@ public class UserController {
                 return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
     }
     
-    @PostMapping("/signup")
-    public ResponseEntity<User> CreateUser (@RequestBody User user, Long id){
-        Optional<User> userCreated = userService.findById(id);
-        if(!userCreated.isPresent()){
-            userService.createUser(user);
-            return new ResponseEntity<User>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<User>(HttpStatus.CONFLICT);
-
-        }
+    @GetMapping(value = "/name/{name}")
+    public List<User> findByNameContainingIgnoreCase(@PathVariable String name){
+        return userService.findByNameContainingIgnoreCase(name);
+    }
+    
+    @PostMapping
+    public User CreateUser (@RequestBody User user){
+        userService.createUser(user);
+        return null;
     }
 
 
