@@ -42,7 +42,7 @@ public class UserController {
         return userService.findByNameContainingIgnoreCase(name);
     }
     
-    @PostMapping
+    @PostMapping(value = "/")
     public User CreateUser (@RequestBody User user){
         userService.createUser(user);
         return null;
@@ -70,4 +70,6 @@ public class UserController {
         else
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
     }
+
+
 }

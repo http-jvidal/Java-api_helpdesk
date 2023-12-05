@@ -1,6 +1,8 @@
 package api.helpdesk.domain.models;
 
 import jakarta.persistence.*;
+import java.util.List;
+import java.util.ArrayList;
 @Entity(name = "users")
 public class User {
     @Id
@@ -12,10 +14,16 @@ public class User {
     private String name;
 
     @Column(name = "login")
-    private String login;
+    private String username;
 
     @Column(name = "senha")
     private String password;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "tab_user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role_id") 
+	private List<String> roles = new ArrayList<>();
+
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "departamento_id")
@@ -25,11 +33,7 @@ public class User {
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
+    public User() {
     }
 
     public Long getId() {
@@ -48,19 +52,44 @@ public class User {
         this.name = name;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
     public Departament getDepartamento() {
         return departamento;
     }
+
+    public void setDepartamento(Departament departamento) {
+        this.departamento = departamento;
+    }
+
     public Ticket getTicket() {
         return ticket;
     }
 
-    
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
 }
