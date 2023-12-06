@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import api.helpdesk.domain.models.User;
+import api.helpdesk.dto.Login;
 
 public interface UserService {
 
@@ -21,7 +22,9 @@ public interface UserService {
 
     User update ( User userDetails);
 
-    User findByUsername(String Login);
+    Optional<User> findByUsername(String Login);
+
+    Optional<User> findByPassword(String password);
 
     
 }

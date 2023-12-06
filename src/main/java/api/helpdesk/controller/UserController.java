@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import api.helpdesk.domain.models.User;
+import api.helpdesk.dto.Login;
 import api.helpdesk.services.UserService;
 
 @RestController
@@ -72,4 +73,19 @@ public class UserController {
     }
 
 
+    @PostMapping("/login")
+    public ResponseEntity<Login> login(@RequestBody Login login){
+        Optional<User> userLogin = userService.findByUsername(login.getUsername());
+        Optional<User> userPass = userService.findByPassword(login.getPassword());
+        Login userLogado = userService.login(login);
+        if(userLogin.isPresent() && userPass.isPresent() ){
+            if(login.getUsername().equals(userLogin.get().getUsername()) && login.getPassword().equals(userPass.get().getPassword())){
+                return ResponseEntity.ok(userLogado);
+            }
+        }
+        
+        return new ResponseEntity<Login>(HttpStatus.NOT_FOUND);
+    }
+
+    
 }

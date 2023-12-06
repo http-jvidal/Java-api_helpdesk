@@ -1,8 +1,6 @@
 package api.helpdesk.domain.models;
 
 import jakarta.persistence.*;
-import java.util.List;
-import java.util.ArrayList;
 @Entity(name = "users")
 public class User {
     @Id
@@ -26,20 +24,6 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
-
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "tab_user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role_id")
-    private List<String> roles = new ArrayList<>();
-
-    public List<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
-    }
 
     public User() {
     }
