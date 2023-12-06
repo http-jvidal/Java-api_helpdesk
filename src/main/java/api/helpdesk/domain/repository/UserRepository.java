@@ -9,6 +9,7 @@ import api.helpdesk.domain.models.User;
 public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsById(Long id);
     boolean existsByName(String name);
+    boolean existsByUsername(String username);
     List<User> findAll();
     User findByName(String name);
     List<User> findByNameContainingIgnoreCase(String name);

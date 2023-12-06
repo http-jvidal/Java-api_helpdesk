@@ -44,8 +44,8 @@ public class UserController {
     
     @PostMapping(value = "/")
     public User CreateUser (@RequestBody User user){
-        userService.createUser(user);
-        return null;
+        return userService.createUser(user);
+        
     }
 
 

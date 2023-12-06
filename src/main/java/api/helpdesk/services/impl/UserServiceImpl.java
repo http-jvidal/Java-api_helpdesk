@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import api.helpdesk.domain.models.User;
@@ -12,7 +13,11 @@ import api.helpdesk.services.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
-    
+
+    private BCryptPasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
     @Autowired
     private final UserRepository userRepository;
 
@@ -32,6 +37,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public User createUser(User user){
+        String password = user.getUsername();
+        user.setPassword(passwordEncoder().encode(password));
         return userRepository.save(user);
         
     }
@@ -44,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByName(String name) {
-        if(!userRepository.existsByName(name)){
+        if(!userRepository.existsByUsername(name)){
             throw new IllegalArgumentException("This username not exists");
         } else {
             User res = userRepository.findByName(name);
@@ -88,7 +95,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String login) {
         return userRepository.findByUsername(login);
-        
     }
 
 
