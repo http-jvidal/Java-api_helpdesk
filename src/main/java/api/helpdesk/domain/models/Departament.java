@@ -15,11 +15,6 @@ public class Departament {
     public Long getId() {
         return id;
     }
-
-    public String getDepartament() {
-        return name;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }

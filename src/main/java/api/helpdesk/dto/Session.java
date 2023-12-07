@@ -1,7 +1,6 @@
 package api.helpdesk.dto;
 
 public class Session {
-    
     private String login;
     private String token;
 

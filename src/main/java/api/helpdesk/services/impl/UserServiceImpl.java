@@ -87,12 +87,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findByUsername(String login) {
-        Optional<User> userLogin = userRepository.findByUsername(login);
-        return userLogin;
+        return userRepository.findByUsername(login);
+    }
+
+    @Override
+    public Login login(Login login) {
+        Optional<User> userLogin = userRepository.findByUsername(login.getUsername());
+        if(!userLogin.isPresent())
+            throw new IllegalArgumentException("User not exists in database");
+        return login;
     }
 
     public Optional<User> findByPassword(String password){
         return userRepository.findByPassword(password);
     }
 
+
+    
 }
