@@ -35,9 +35,8 @@ public class TicketServiceImpl implements TicketService{
     public Ticket createCalled(Ticket ticket) {
         if(ticketRepository.existsById(ticket.getId()))
             throw new IllegalArgumentException("Ticket Id already exists");
-        else {
-            return ticketRepository.save(ticket);
-        }
+        return ticketRepository.save(ticket);
+        
             
     }
 

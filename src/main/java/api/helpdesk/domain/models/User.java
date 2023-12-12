@@ -25,6 +25,7 @@ public class User {
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
+
     public User() {
     }
 

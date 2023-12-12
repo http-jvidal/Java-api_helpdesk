@@ -3,12 +3,12 @@ package api.helpdesk.services.impl;
 import java.util.List;
 import java.util.Optional;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import api.helpdesk.domain.models.User;
 import api.helpdesk.domain.repository.UserRepository;
-import api.helpdesk.dto.Login;
 import api.helpdesk.services.UserService;
 
 @Service
@@ -16,10 +16,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private final UserRepository userRepository;
 
+    
+
+
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
 
     @Override
     public Optional<User> findById(Long id){
@@ -31,11 +33,14 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public User createUser(User user){
-        return userRepository.save(user);
-        
+    public void createUser(User user){
+        if(user.getUsername().isEmpty() ||user.getPassword().isEmpty())
+            throw new IllegalArgumentException("Login and password cannot be null");
+        if(userRepository.existsById(user.getId()))
+            throw new IllegalArgumentException("User Already exists");
+        userRepository.save(user);
     }
-    
+
     public List<User> findAll(){
         List<User> res = userRepository.findAll();
         return res;
@@ -82,23 +87,22 @@ public class UserServiceImpl implements UserService {
             final User userUpdate = userRepository.save(user);
             return userUpdate;
         }
-
     }
 
     @Override
-    public Optional<User> findByUsername(String login) {
+    public User findByUsername(String login) {
         return userRepository.findByUsername(login);
     }
 
     @Override
-    public Login login(Login login) {
-        Optional<User> userLogin = userRepository.findByUsername(login.getUsername());
-        if(!userLogin.isPresent())
+    public User login(User user) {
+        User userLogin = userRepository.findByUsername(user.getUsername());
+        if(userLogin == null)
             throw new IllegalArgumentException("User not exists in database");
-        return login;
+        return user;
     }
 
-    public Optional<User> findByPassword(String password){
+    public User findByPassword(String password){
         return userRepository.findByPassword(password);
     }
 
