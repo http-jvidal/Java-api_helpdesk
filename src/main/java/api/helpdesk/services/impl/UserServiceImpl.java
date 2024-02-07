@@ -91,21 +91,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String login) {
-        return userRepository.findByUsername(login);
+        var user = userRepository.findByUsername(login);
+        if(!user.isPresent()){
+            throw new IllegalArgumentException("Login not exists");
+        }
+            throw new IllegalArgumentException("Login already exists");
+        
     }
 
     @Override
     public User login(User user) {
-        User userLogin = userRepository.findByUsername(user.getUsername());
-        if(userLogin == null)
+        var userExists = userRepository.findByUsername(user.getUsername())
+        if(userExists == null)
             throw new IllegalArgumentException("User not exists in database");
         return user;
     }
-
-    public User findByPassword(String password){
-        return userRepository.findByPassword(password);
-    }
-
 
     
 }

@@ -4,6 +4,7 @@ public class Login {
     private Long id;
     private String username;
     private String password;
+    
     public Long getId() {
         return id;
     }

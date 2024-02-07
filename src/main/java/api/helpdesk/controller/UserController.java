@@ -43,15 +43,15 @@ public class UserController {
     
     @PostMapping(value = "/")
     public ResponseEntity<User> createUser (@RequestBody User user){
-        var existUser = userService.findByUsername(user.getUsername());
-        
-        if(existUser != null && existUser.getUsername() != null && !existUser.getUsername().isEmpty()){
-            return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+        User existUser = userService.findByUsername(user.getUsername());
+       
+        if(existUser.equals(user)){
+            throw new IllegalArgumentException("User already exists");
+        } else {
+            userService.createUser(user);
+            return new ResponseEntity<User>(HttpStatus.CREATED);
         }
-        userService.createUser(user);
-        return new ResponseEntity<User>(HttpStatus.OK);
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<User> deleteById(@PathVariable Long id){
@@ -81,8 +81,8 @@ public class UserController {
         User userLogin = userService.findByUsername(user.getUsername());
         
 
-        if(user.getUsername().isEmpty() && user.getPassword().isEmpty())
-            return new ResponseEntity<User>(HttpStatus.CONFLICT);
+        if(user.getUsername().isEmpty() || user.getPassword().isEmpty())
+            return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
 
         if(user.getUsername().matches(userLogin.getUsername()) && user.getPassword().matches(userLogin.getPassword()))
             return ResponseEntity.ok(userService.login(user));

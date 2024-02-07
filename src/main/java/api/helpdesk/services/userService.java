@@ -23,8 +23,6 @@ public interface UserService {
 
     User findByUsername(String Login);
 
-    User findByPassword(String password);
-
     User login(User user);
     
 }
