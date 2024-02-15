@@ -30,10 +30,10 @@ public class UserController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<User> FindById(@PathVariable Long id){
         Optional<User> user = userService.findById(id);
-            if(user.isPresent())
-                return new ResponseEntity<User>(user.get(), HttpStatus.OK);
-            else
-                return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+        if(user.isPresent())
+            return new ResponseEntity<User>(user.get(), HttpStatus.OK);
+        else
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
     }
     
     @GetMapping(value = "/name/{name}")
@@ -41,20 +41,14 @@ public class UserController {
         return userService.findByNameContainingIgnoreCase(name);
     }
     
-    @PostMapping(value = "/")
+    @PostMapping("/")
     public ResponseEntity<User> createUser (@RequestBody User user){
-        User existUser = userService.findByUsername(user.getUsername());
-       
-        if(existUser.equals(user)){
-            throw new IllegalArgumentException("User already exists");
-        } else {
-            userService.createUser(user);
-            return new ResponseEntity<User>(HttpStatus.CREATED);
-        }
+        userService.createUser(user);
+        return new ResponseEntity<User>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<User> deleteById(@PathVariable Long id){
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<User> deleteByIdUser (@PathVariable Long id){
         Optional<User> userId = userService.findById(id);
         if(userId.isPresent()){
             userService.delete(id);
@@ -62,11 +56,10 @@ public class UserController {
         } else {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
-
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable(value = "id") Long id, @RequestBody User user){
+    public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long id, @RequestBody User user){
         Optional<User> userId = userService.findById(id);
         User res = userService.update(user);
         if(userId.isPresent())
@@ -75,21 +68,4 @@ public class UserController {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
     }
 
-
-    @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody User user){
-        User userLogin = userService.findByUsername(user.getUsername());
-        
-
-        if(user.getUsername().isEmpty() || user.getPassword().isEmpty())
-            return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
-
-        if(user.getUsername().matches(userLogin.getUsername()) && user.getPassword().matches(userLogin.getPassword()))
-            return ResponseEntity.ok(userService.login(user));
-
-        return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-    }
-
-    
-    
 }

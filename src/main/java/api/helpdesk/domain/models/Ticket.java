@@ -18,7 +18,7 @@ public class Ticket {
     
 
     @Column(name = "estado")
-    Boolean estado;
+    String estado;
 
     public Long getId() {
         return id;
@@ -50,12 +50,12 @@ public class Ticket {
     }
 
 
-    public Boolean getEstado() {
+    public String getEstado() {
         return estado;
     }
 
 
-    public void setEstado(Boolean estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 

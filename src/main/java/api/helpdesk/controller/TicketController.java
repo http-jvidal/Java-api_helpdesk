@@ -46,7 +46,7 @@ public class TicketController {
     }
 
     @PostMapping("create")
-    public ResponseEntity<Ticket> createCalled(@RequestBody Ticket ticket, Long id){
+    public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket, Long id){
         Optional<Ticket> ticketId = ticketService.findById(id);
         if(ticketId.isPresent()){
             return new ResponseEntity<Ticket>(HttpStatus.BAD_REQUEST);
@@ -54,10 +54,11 @@ public class TicketController {
             ticketService.createCalled(ticket);
             return ResponseEntity.noContent().build();
         }   
+
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id, Ticket ticket){
+    public ResponseEntity<?> deleteTicket(@PathVariable Long id, Ticket ticket){
         Optional<Ticket> ticketId = ticketService.findById(id);
         if(ticketId.isPresent()){
             ticketService.delete(id);
@@ -68,7 +69,7 @@ public class TicketController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Ticket> update(@PathVariable Long id, @RequestBody Ticket ticket){
+    public ResponseEntity<Ticket> updateTicket(@PathVariable Long id, @RequestBody Ticket ticket){
         Optional<Ticket> ticketId = ticketService.findById(id);
         Ticket res = ticketService.update(ticket);
         if(ticketId.isPresent()){

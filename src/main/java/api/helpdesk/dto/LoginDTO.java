@@ -1,6 +1,6 @@
 package api.helpdesk.dto;
 
-public class Login {
+public class LoginDTO {
     private Long id;
     private String username;
     private String password;

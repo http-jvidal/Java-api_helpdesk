@@ -16,9 +16,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private final UserRepository userRepository;
 
-    
-
-
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -36,7 +33,7 @@ public class UserServiceImpl implements UserService {
     public void createUser(User user){
         if(user.getUsername().isEmpty() ||user.getPassword().isEmpty())
             throw new IllegalArgumentException("Login and password cannot be null");
-        if(userRepository.existsById(user.getId()))
+        if(userRepository.existsByUsername(user.getUsername()))
             throw new IllegalArgumentException("User Already exists");
         userRepository.save(user);
     }
@@ -90,21 +87,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUsername(String login) {
-        var user = userRepository.findByUsername(login);
-        if(!user.isPresent()){
-            throw new IllegalArgumentException("Login not exists");
-        }
-            throw new IllegalArgumentException("Login already exists");
-        
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     @Override
     public User login(User user) {
-        var userExists = userRepository.findByUsername(user.getUsername())
+        var userExists = userRepository.findByUsername(user.getUsername());
         if(userExists == null)
             throw new IllegalArgumentException("User not exists in database");
         return user;
+
     }
 
     
