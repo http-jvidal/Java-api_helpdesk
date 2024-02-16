@@ -20,8 +20,8 @@ import api.helpdesk.domain.models.Ticket;
 import api.helpdesk.services.TicketService;
 
 @RestController
-@RequestMapping("api/ticket")
-@CrossOrigin(origins =  {"http://localhost:4200"})
+@RequestMapping("/api/ticket")
+@CrossOrigin(origins = "http://localhost:4200")
 public class TicketController {
     
     @Autowired
@@ -45,20 +45,15 @@ public class TicketController {
             return new ResponseEntity<Ticket>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("create")
-    public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket, Long id){
-        Optional<Ticket> ticketId = ticketService.findById(id);
-        if(ticketId.isPresent()){
-            return new ResponseEntity<Ticket>(HttpStatus.BAD_REQUEST);
-        } else {
-            ticketService.createCalled(ticket);
-            return ResponseEntity.noContent().build();
-        }   
+    @PostMapping("/")
+    public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket){
+        ticketService.createCalled(ticket);
+        return ResponseEntity.noContent().build();
 
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> deleteTicket(@PathVariable Long id, Ticket ticket){
+    public ResponseEntity<?> deleteTicket(@PathVariable Long id ){
         Optional<Ticket> ticketId = ticketService.findById(id);
         if(ticketId.isPresent()){
             ticketService.delete(id);

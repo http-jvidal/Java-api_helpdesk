@@ -3,13 +3,14 @@ package api.helpdesk.services;
 import java.util.List;
 import java.util.Optional;
 
+import api.helpdesk.domain.models.Departament;
 import api.helpdesk.domain.models.User;
 
 public interface UserService {
 
     Optional<User> findById (Long id);
     
-    void createUser (User user);
+    void saveUser(String name, String username, String password, Departament departmentName);
 
     List<User> findAll();
     
@@ -25,4 +26,5 @@ public interface UserService {
 
     User login(User user);
     
+
 }

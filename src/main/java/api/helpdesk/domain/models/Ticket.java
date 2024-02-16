@@ -1,29 +1,33 @@
 package api.helpdesk.domain.models;
 
-import jakarta.persistence.*;
-
+import io.micrometer.common.lang.Nullable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity(name="chamados")
 public class Ticket {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    Long id;
+    @Column(name = "id", nullable = true)
+    private Long id;
 
     @Column(name = "detalhes")
-    String detalhes;
+    private String detalhes;
 
     @Column(name = "imagem")
-    String imagem;
+    private String imagem;
     
     @Column(name = "nome")
-    String nome;
+    private String nome;
 
     @Column(name = "Contato")
-    String contato;
+    private String contato;
 
     @Column(name = "estado")
-    String estado;
+    private String estado;
 
     public Long getId() {
         return id;

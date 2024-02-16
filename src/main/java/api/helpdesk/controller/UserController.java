@@ -9,17 +9,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import api.helpdesk.domain.models.User;
+import api.helpdesk.domain.repository.UserRepository;
 import api.helpdesk.services.UserService;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins =  {"http://localhost:4200"})
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
     @Autowired
     private final UserService userService;
-    public UserController(UserService userService) {
+    private final UserRepository userRepository;
+    public UserController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping(value = "/")
@@ -42,9 +45,13 @@ public class UserController {
     }
     
     @PostMapping("/")
-    public ResponseEntity<User> createUser (@RequestBody User user){
-        userService.createUser(user);
-        return new ResponseEntity<User>(HttpStatus.CREATED);
+    public ResponseEntity<String> saveUser(@RequestBody User user) {
+        try {
+            userService.saveUser(user.getName(), user.getUsername(), user.getPassword(), user.getDepartamento());
+            return ResponseEntity.ok("Usuário salvo com sucesso!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao salvar usuário: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/delete/{id}")
@@ -58,7 +65,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long id, @RequestBody User user){
         Optional<User> userId = userService.findById(id);
         User res = userService.update(user);

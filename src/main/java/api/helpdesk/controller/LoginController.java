@@ -12,8 +12,8 @@ import api.helpdesk.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
-@CrossOrigin
-@RequestMapping("/auth/users")
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/auth")
 @RestController
 public class LoginController {
 

@@ -7,7 +7,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import api.helpdesk.domain.models.Departament;
+import api.helpdesk.domain.models.Ticket;
 import api.helpdesk.domain.models.User;
+import api.helpdesk.domain.repository.DepartamentRepository;
 import api.helpdesk.domain.repository.UserRepository;
 import api.helpdesk.services.UserService;
 
@@ -16,8 +19,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    private final DepartamentRepository departamentRepository;
+    
+
+    public UserServiceImpl(UserRepository userRepository, DepartamentRepository departamentRepository) {
         this.userRepository = userRepository;
+        this.departamentRepository = departamentRepository;
     }
 
     @Override
@@ -30,12 +37,25 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public void createUser(User user){
-        if(user.getUsername().isEmpty() ||user.getPassword().isEmpty())
-            throw new IllegalArgumentException("Login and password cannot be null");
-        if(userRepository.existsByUsername(user.getUsername()))
-            throw new IllegalArgumentException("User Already exists");
-        userRepository.save(user);
+    public void saveUser(String name, String username, String password, Departament departmentName) {
+        // Verificar se o departamento já existe
+        Departament existingDepartament = departamentRepository.findByName(departmentName.getName());
+
+        if (existingDepartament == null) {
+            // Se o departamento não existe, crie um novo
+            Departament newDepartament = new Departament();
+            newDepartament.setName(departmentName.getName());
+            // Salve o novo departamento no banco de dados
+            departamentRepository.save(newDepartament);
+
+            // Crie o usuário com o novo departamento
+            User newUser = new User(name, username, password, newDepartament);
+            userRepository.save(newUser);
+        } else {
+            // Se o departamento já existe, crie o usuário com o departamento existente
+            User newUser = new User(name, username, password, existingDepartament);
+            userRepository.save(newUser);
+        }
     }
 
     public List<User> findAll(){
