@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import api.helpdesk.domain.models.Departament;
-import api.helpdesk.domain.models.Ticket;
 import api.helpdesk.domain.models.User;
 import api.helpdesk.domain.repository.DepartamentRepository;
 import api.helpdesk.domain.repository.UserRepository;

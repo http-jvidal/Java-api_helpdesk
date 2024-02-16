@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import api.helpdesk.domain.models.User;
-import api.helpdesk.domain.repository.UserRepository;
 import api.helpdesk.services.UserService;
 
 @RestController
@@ -19,10 +18,8 @@ public class UserController {
 
     @Autowired
     private final UserService userService;
-    private final UserRepository userRepository;
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     @GetMapping(value = "/")
