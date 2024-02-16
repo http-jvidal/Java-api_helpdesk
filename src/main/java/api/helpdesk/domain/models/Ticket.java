@@ -16,6 +16,11 @@ public class Ticket {
     @Column(name = "imagem")
     String imagem;
     
+    @Column(name = "nome")
+    String nome;
+
+    @Column(name = "Contato")
+    String contato;
 
     @Column(name = "estado")
     String estado;
