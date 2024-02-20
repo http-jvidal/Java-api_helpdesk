@@ -7,7 +7,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import api.helpdesk.domain.models.Departament;
 import api.helpdesk.domain.models.Ticket;
+import api.helpdesk.domain.repository.DepartamentRepository;
 import api.helpdesk.domain.repository.TicketRepository;
 import api.helpdesk.services.TicketService;
 
@@ -16,10 +18,11 @@ public class TicketServiceImpl implements TicketService{
 
     @Autowired
     private final TicketRepository ticketRepository;
+    private final DepartamentRepository departamentoRepository;
 
-
-    public TicketServiceImpl(TicketRepository ticketRepository) {
+    public TicketServiceImpl(TicketRepository ticketRepository, DepartamentRepository departamentoRepository) {
         this.ticketRepository = ticketRepository;
+        this.departamentoRepository = departamentoRepository;
     }
 
     @Override
@@ -32,11 +35,16 @@ public class TicketServiceImpl implements TicketService{
     }
 
     @Override
-    public Ticket createCalled(Ticket ticket) {
-        if(ticketRepository.existsById(ticket.getId()))
-            throw new IllegalArgumentException("Ticket Id already exists");
-        return ticketRepository.save(ticket);
+    public void createCalled(String nome, String detalhes, String imagem, Departament departamentName) {
         
+        Departament existingDepartament = departamentoRepository.findByName(departamentName.getName());
+        
+        if(existingDepartament != null){
+            Ticket ticket = new Ticket(nome, detalhes, imagem, existingDepartament);
+            ticketRepository.save(ticket);
+        } else {
+            throw new IllegalArgumentException("Departamento incorreto ou não existe, faça cadastro");
+        }
             
     }
 

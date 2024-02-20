@@ -46,10 +46,13 @@ public class TicketController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket){
-        ticketService.createCalled(ticket);
-        return ResponseEntity.noContent().build();
-
+    public ResponseEntity<String> createTicket(@RequestBody Ticket ticket){
+        try{
+            ticketService.createCalled(ticket.getNome(), ticket.getDetalhes(), ticket.getImagem(), ticket.getDepartamento());
+            return ResponseEntity.ok("Chamado criado com sucesso");
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar Chamado: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("delete/{id}")

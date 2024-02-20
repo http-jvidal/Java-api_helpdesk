@@ -24,9 +24,9 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> validateLogin(@RequestBody LoginDTO loginDto) {
-        String username = loginDto.getUsername();
-        String password = loginDto.getPassword();
+    public ResponseEntity<?> validateLogin(@RequestBody User user) {
+        String username = user.getUsername();
+        String password = user.getPassword();
         
         User userLogin = userService.findByUsername(username);
         
