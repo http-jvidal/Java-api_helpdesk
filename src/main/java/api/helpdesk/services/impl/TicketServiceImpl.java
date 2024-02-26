@@ -35,12 +35,12 @@ public class TicketServiceImpl implements TicketService{
     }
 
     @Override
-    public void createCalled(String nome, String detalhes, String imagem, Departament departamentName) {
+    public void createCalled(String nome, String detalhes, String contato, Departament departamentName) {
         
         Departament existingDepartament = departamentoRepository.findByName(departamentName.getName());
         
         if(existingDepartament != null){
-            Ticket ticket = new Ticket(nome, detalhes, imagem, existingDepartament);
+            Ticket ticket = new Ticket(nome, detalhes, contato, existingDepartament);
             ticketRepository.save(ticket);
         } else {
             throw new IllegalArgumentException("Departamento incorreto ou não existe, faça cadastro");

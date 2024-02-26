@@ -7,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 
 @Entity(name="chamados")
@@ -20,9 +19,11 @@ public class Ticket {
     @Column(name = "detalhes")
     private String detalhes;
 
-    @Column(name = "imagem")
-    private String imagem;
+    @Column(name = "contato")
+    private String contato;
     
+   
+
     @Column(name = "nome")
     private String nome;
 
@@ -39,10 +40,10 @@ public class Ticket {
 
     }
 
-    public Ticket(String nome, String detalhes, String imagem, Departament departamento){
+    public Ticket(String nome, String detalhes, String contato, Departament departamento){
         this.nome = nome;
         this.detalhes = detalhes;
-        this.imagem = imagem;
+        this.contato = contato;
         this.departamento = departamento;
     }
 
@@ -50,6 +51,14 @@ public class Ticket {
         return id;
     }
 
+
+    public String getContato() {
+        return contato;
+    }
+
+    public void setContato(String contato) {
+        this.contato = contato;
+    }
 
 
     public Departament getDepartamento() {
@@ -81,16 +90,6 @@ public class Ticket {
 
     public void setDetalhes(String detalhes) {
         this.detalhes = detalhes;
-    }
-
-
-    public String getImagem() {
-        return imagem;
-    }
-
-
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
     }
 
 

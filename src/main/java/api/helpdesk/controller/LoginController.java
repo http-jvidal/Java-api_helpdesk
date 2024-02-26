@@ -6,13 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import api.helpdesk.domain.models.User;
-import api.helpdesk.dto.LoginDTO;
 import api.helpdesk.services.UserService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 @RequestMapping("/auth")
 @RestController
 public class LoginController {
@@ -24,7 +23,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> validateLogin(@RequestBody User user) {
+    public ResponseEntity<User> validateLogin(@RequestBody User user) {
         String username = user.getUsername();
         String password = user.getPassword();
         

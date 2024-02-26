@@ -21,7 +21,7 @@ import api.helpdesk.services.TicketService;
 
 @RestController
 @RequestMapping("/api/ticket")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 public class TicketController {
     
     @Autowired
@@ -48,7 +48,7 @@ public class TicketController {
     @PostMapping("/")
     public ResponseEntity<String> createTicket(@RequestBody Ticket ticket){
         try{
-            ticketService.createCalled(ticket.getNome(), ticket.getDetalhes(), ticket.getImagem(), ticket.getDepartamento());
+            ticketService.createCalled(ticket.getNome(), ticket.getDetalhes(), ticket.getContato(), ticket.getDepartamento());
             return ResponseEntity.ok("Chamado criado com sucesso");
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar Chamado: " + e.getMessage());
@@ -69,9 +69,9 @@ public class TicketController {
     @PutMapping("/{id}")
     public ResponseEntity<Ticket> updateTicket(@PathVariable Long id, @RequestBody Ticket ticket){
         Optional<Ticket> ticketId = ticketService.findById(id);
-        Ticket res = ticketService.update(ticket);
+        Ticket ticketUpdated = ticketService.update(ticket);
         if(ticketId.isPresent()){
-            return ResponseEntity.ok(res);
+            return ResponseEntity.ok(ticketUpdated);
         } else {
             return new ResponseEntity<Ticket>(HttpStatus.NOT_FOUND);
         }
