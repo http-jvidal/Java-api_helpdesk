@@ -15,8 +15,6 @@ public class DepartamentImpl implements DepartamentService{
         this.departamentRepository = departamentRepository;
     }
 
-    
-
     @Override
     public void delete(Long id) {
         if(departamentRepository.existsById(id)){
