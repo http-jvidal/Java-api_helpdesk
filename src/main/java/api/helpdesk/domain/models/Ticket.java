@@ -31,14 +31,12 @@ public class Ticket {
     @JoinColumn(name = "departamento_id")
     private Departament departamento;
 
-
-    @Column(name = "estado")
-    private String estado;
-
-
     public Ticket(){
 
     }
+
+  
+    
 
     public Ticket(String nome, String detalhes, String contato, Departament departamento){
         this.nome = nome;
@@ -93,15 +91,4 @@ public class Ticket {
     }
 
 
-    public String getEstado() {
-        return estado;
-    }
-
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-
-    
 }

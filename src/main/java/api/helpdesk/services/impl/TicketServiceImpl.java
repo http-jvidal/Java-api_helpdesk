@@ -36,7 +36,6 @@ public class TicketServiceImpl implements TicketService{
 
     @Override
     public void createCalled(String nome, String detalhes, String contato, Departament departamentName) {
-        
         Departament existingDepartament = departamentoRepository.findByName(departamentName.getName());
         
         if(existingDepartament != null){
@@ -45,7 +44,6 @@ public class TicketServiceImpl implements TicketService{
         } else {
             throw new IllegalArgumentException("Departamento incorreto ou não existe, faça cadastro");
         }
-            
     }
 
     @Override

@@ -31,7 +31,7 @@ public class TicketController {
         this.ticketService = ticketService;
     }
 
-    @GetMapping
+    @GetMapping("/")
     public List<Ticket> findAll(){
         return ticketService.findAll();
     }
@@ -47,11 +47,11 @@ public class TicketController {
 
     @PostMapping("/")
     public ResponseEntity<String> createTicket(@RequestBody Ticket ticket){
-        try{
+        if(ticket != null){
             ticketService.createCalled(ticket.getNome(), ticket.getDetalhes(), ticket.getContato(), ticket.getDepartamento());
             return ResponseEntity.ok("Chamado criado com sucesso");
-        } catch(Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar Chamado: " + e.getMessage());
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar Chamado");
         }
     }
 
