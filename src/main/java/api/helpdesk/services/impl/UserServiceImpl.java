@@ -65,13 +65,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByName(String name) {
-        if(!userRepository.existsByUsername(name)){
-            throw new IllegalArgumentException("This username not exists");
-        } else {
-            User res = userRepository.findByName(name);
-            return res;
-        }
-        
+        var res = userRepository.findByName(name);
+        return res;
     }
 
     @Override

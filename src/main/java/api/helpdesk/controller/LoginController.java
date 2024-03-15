@@ -1,8 +1,8 @@
 package api.helpdesk.controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import api.helpdesk.domain.models.User;
@@ -23,19 +23,17 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> validateLogin(@RequestBody User user) {
-        String username = user.getUsername();
-        String password = user.getPassword();
-        
-        User userLogin = userService.findByUsername(username);
-        
-        if (userLogin == null) {
-            return ResponseEntity.notFound().build();
-        } else if (password.equals(userLogin.getPassword())) {
-            userService.login(userLogin);
-            return ResponseEntity.accepted().build();
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+    public ResponseEntity<?> validateLogin(@RequestParam String username, @RequestParam String password) {
+    User userLogin = userService.findByUsername(username);
+    
+    if (userLogin == null) {
+        return ResponseEntity.notFound().build();
+    } else if (password.equals(userLogin.getPassword())) {
+        userService.login(userLogin);
+        return ResponseEntity.accepted().build();
+    } else {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+}
+
 }

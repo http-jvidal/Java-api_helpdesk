@@ -56,7 +56,7 @@ public class TicketController {
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> deleteTicket(@PathVariable Long id ){
+    public ResponseEntity<Ticket> deleteTicket(@PathVariable Long id ){
         Optional<Ticket> ticketId = ticketService.findById(id);
         if(ticketId.isPresent()){
             ticketService.delete(id);

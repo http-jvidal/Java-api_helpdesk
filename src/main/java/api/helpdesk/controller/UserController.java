@@ -63,7 +63,7 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long id, @RequestBody User user){
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user){
         Optional<User> userId = userService.findById(id);
         User res = userService.update(user);
         if(userId.isPresent())
