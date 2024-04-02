@@ -25,7 +25,7 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<?> validateLogin(@RequestParam String username, @RequestParam String password) {
     User userLogin = userService.findByUsername(username);
-    
+        var userRoles = userService.getUserRoles(userLogin);
     if (userLogin == null) {
         return ResponseEntity.notFound().build();
     } else if (password.equals(userLogin.getPassword())) {

@@ -38,18 +38,18 @@ public class TicketServiceImpl implements TicketService{
     public void createCalled(String nome, String detalhes, String contato, Departament departamentName) {
         Departament existingDepartament = departamentoRepository.findByName(departamentName.getName());
         
-        if(existingDepartament != null){
+        if (existingDepartament == null){
+            throw new NullPointerException("Departament cannot be null");
+        } else if(existingDepartament != null){
             Ticket ticket = new Ticket(nome, detalhes, contato, existingDepartament);
             ticketRepository.save(ticket);
-        } else {
-            throw new IllegalArgumentException("Departamento incorreto ou não existe, faça cadastro");
-        }
+        } 
     }
 
     @Override
     public List<Ticket> findAll() {
-            List<Ticket> res = ticketRepository.findAll();
-            return res;
+            List<Ticket> tickets = ticketRepository.findAll();
+            return tickets;
     }
 
     @Override

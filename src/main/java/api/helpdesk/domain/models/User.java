@@ -25,9 +25,25 @@ public class User {
     @Column(name = "senha")
     private String password;
 
+    @Column(name = "roles")
+    private String roles;
+    
+    public String getRoles() {
+        return roles;
+    }
+
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "departamento_id")
     private Departament departamento;
+
+    @Column(name = "NumeroTel")
+    private String contato;
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ticket_id")
@@ -38,9 +54,9 @@ public class User {
     }
 
 
-    public User(String name, String userName, String password,  Departament departament) {
+    public User(String name, String username, String password,  Departament departament) {
         this.name = name;
-        this.username = userName;
+        this.username = username;
         this.password = password;
         this.departamento = departament;
     }

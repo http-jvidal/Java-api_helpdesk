@@ -44,7 +44,7 @@ public class UserController {
     @PostMapping("/")
     public ResponseEntity<String> saveUser(@RequestBody User user) {
         try {
-            userService.saveUser(user.getName(), user.getUsername(), user.getPassword(), user.getDepartamento());
+            userService.saveUser(user);
             return ResponseEntity.ok("Usuário salvo com sucesso!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao salvar usuário: " + e.getMessage());

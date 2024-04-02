@@ -5,6 +5,7 @@ import java.util.Optional;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import api.helpdesk.domain.models.Departament;
@@ -21,6 +22,7 @@ public class UserServiceImpl implements UserService {
     private final DepartamentRepository departamentRepository;
     
 
+
     public UserServiceImpl(UserRepository userRepository, DepartamentRepository departamentRepository) {
         this.userRepository = userRepository;
         this.departamentRepository = departamentRepository;
@@ -36,24 +38,22 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public void saveUser(String name, String username, String password, Departament departmentName) {
+    public void saveUser(User user) {
         // Verificar se o departamento já existe
-        Departament existingDepartament = departamentRepository.findByName(departmentName.getName());
+        Departament existingDepartament = departamentRepository.findByName(user.getDepartamento().getName());
 
         if (existingDepartament == null) {
             // Se o departamento não existe, crie um novo
             Departament newDepartament = new Departament();
-            newDepartament.setName(departmentName.getName());
+            newDepartament.setName(user.getDepartamento().getName());
             // Salve o novo departamento no banco de dados
             departamentRepository.save(newDepartament);
 
             // Crie o usuário com o novo departamento
-            User newUser = new User(name, username, password, newDepartament);
-            userRepository.save(newUser);
+            userRepository.save(user).getId();
         } else {
             // Se o departamento já existe, crie o usuário com o departamento existente
-            User newUser = new User(name, username, password, existingDepartament);
-            userRepository.save(newUser);
+            userRepository.save(user).getId();
         }
     }
 
@@ -65,8 +65,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByName(String name) {
-        var res = userRepository.findByName(name);
-        return res;
+        User username = userRepository.findByName(name);
+        return username;
     }
 
     @Override
@@ -107,12 +107,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(User user) {
-        var userExists = userRepository.findByUsername(user.getUsername());
+        User userExists = userRepository.findByUsername(user.getUsername());
         if(userExists == null)
             throw new IllegalArgumentException("User not exists in database");
         return user;
 
     }
 
+    @Override
+    public String getUserRoles(User user) {
+        return user.getRoles();
+    }
+
+   
     
 }

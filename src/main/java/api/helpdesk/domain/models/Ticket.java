@@ -22,8 +22,6 @@ public class Ticket {
     @Column(name = "contato")
     private String contato;
     
-   
-
     @Column(name = "nome")
     private String nome;
 
@@ -35,8 +33,6 @@ public class Ticket {
 
     }
 
-  
-    
 
     public Ticket(String nome, String detalhes, String contato, Departament departamento){
         this.nome = nome;
