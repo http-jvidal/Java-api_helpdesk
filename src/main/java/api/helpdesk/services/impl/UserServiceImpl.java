@@ -5,7 +5,6 @@ import java.util.Optional;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import api.helpdesk.domain.models.Departament;
@@ -102,7 +101,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+        var user = userRepository.findByUsername(username);
+        return user;
     }
 
     @Override

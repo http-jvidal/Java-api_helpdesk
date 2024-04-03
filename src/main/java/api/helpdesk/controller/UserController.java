@@ -28,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> FindById(@PathVariable Long id){
+    public ResponseEntity<User> findById(@PathVariable Long id){
         Optional<User> user = userService.findById(id);
         if(user.isPresent())
             return new ResponseEntity<User>(user.get(), HttpStatus.OK);
@@ -40,7 +40,7 @@ public class UserController {
     public List<User> findByNameContainingIgnoreCase(@PathVariable String name){
         return userService.findByNameContainingIgnoreCase(name);
     }
-    
+  
     @PostMapping("/")
     public ResponseEntity<String> saveUser(@RequestBody User user) {
         try {
@@ -72,4 +72,20 @@ public class UserController {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
     }
 
+
+    @GetMapping("/roles/{username}")
+    public ResponseEntity<String> getRoles(@PathVariable String username){
+        try{
+            User user = userService.findByUsername(username);
+            if(user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+            }
+            
+            var userRoles = userService.getUserRoles(user);
+            return ResponseEntity.ok("Papéis de " + user.getUsername() + " são " + userRoles);
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar papéis do usuário: " + e.getMessage());
+        }
+    }
+    
 }

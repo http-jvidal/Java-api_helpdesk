@@ -21,7 +21,7 @@ public interface UserService {
 
     User update ( User userDetails);
 
-    User findByUsername(String Login);
+    User findByUsername(String username);
 
     User login(User user);
     
