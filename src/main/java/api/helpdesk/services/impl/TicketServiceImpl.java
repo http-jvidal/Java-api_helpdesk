@@ -35,15 +35,8 @@ public class TicketServiceImpl implements TicketService{
     }
 
     @Override
-    public void createCalled(String nome, String detalhes, String contato, Departament departamentName) {
-        Departament existingDepartament = departamentoRepository.findByName(departamentName.getName());
-        
-        if (existingDepartament == null){
-            throw new NullPointerException("Departament cannot be null");
-        } else if(existingDepartament != null){
-            Ticket ticket = new Ticket(nome, detalhes, contato, existingDepartament);
-            ticketRepository.save(ticket);
-        } 
+    public void createCalled(Ticket ticket) {
+        ticketRepository.save(ticket);
     }
 
     @Override

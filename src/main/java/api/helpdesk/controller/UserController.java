@@ -22,6 +22,15 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping(value = "/find/username/{username}")
+    public ResponseEntity<User> findByUsername(@PathVariable String username){
+        User user = userService.findByUsername(username);
+        if(user != null){
+            return new ResponseEntity<User>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+        }
+    }
     @GetMapping(value = "/")
     public List<User> FindAll(){
         return userService.findAll();    
@@ -36,10 +45,6 @@ public class UserController {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
     }
     
-    @GetMapping(value = "/name/{name}")
-    public List<User> findByNameContainingIgnoreCase(@PathVariable String name){
-        return userService.findByNameContainingIgnoreCase(name);
-    }
   
     @PostMapping("/")
     public ResponseEntity<String> saveUser(@RequestBody User user) {

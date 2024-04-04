@@ -48,7 +48,7 @@ public class TicketController {
     @PostMapping("/")
     public ResponseEntity<String> createTicket(@RequestBody Ticket ticket){
         if(ticket != null){
-            ticketService.createCalled(ticket.getNome(), ticket.getDetalhes(), ticket.getContato(), ticket.getDepartamento());
+            ticketService.createCalled(ticket);
             return ResponseEntity.ok("Chamado criado com sucesso");
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar Chamado");
