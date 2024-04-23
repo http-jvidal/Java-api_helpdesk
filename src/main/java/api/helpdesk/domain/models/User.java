@@ -45,10 +45,7 @@ public class User {
     private String contato;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ticket_id")
-    private Ticket ticket;
-
+    
 
     public User() {
     }
@@ -101,12 +98,5 @@ public class User {
         this.departamento = departamento;
     }
 
-    public Ticket getTicket() {
-        return ticket;
-    }
-
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
-    }
-
+    
 }

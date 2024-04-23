@@ -29,16 +29,21 @@ public class Ticket {
     @JoinColumn(name = "departamento_id")
     private Departament departamento;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Ticket(){
 
     }
 
 
-    public Ticket(String nome, String detalhes, String contato, Departament departamento){
+    public Ticket(String nome, String detalhes, String contato, Departament departamento, User user){
         this.nome = nome;
         this.detalhes = detalhes;
         this.contato = contato;
         this.departamento = departamento;
+        this.user = user;
     }
 
     public Long getId() {
@@ -87,4 +92,11 @@ public class Ticket {
     }
 
 
+    public User getUser(){
+        return user;
+    }
+
+    public void setUser(User user){
+        this.user = user;
+    }
 }
