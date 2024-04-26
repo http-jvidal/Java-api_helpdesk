@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import api.helpdesk.domain.models.Departament;
 import api.helpdesk.domain.models.Ticket;
 import api.helpdesk.domain.repository.DepartamentRepository;
 import api.helpdesk.domain.repository.TicketRepository;
@@ -18,11 +17,9 @@ public class TicketServiceImpl implements TicketService{
 
     @Autowired
     private final TicketRepository ticketRepository;
-    private final DepartamentRepository departamentoRepository;
 
-    public TicketServiceImpl(TicketRepository ticketRepository, DepartamentRepository departamentoRepository) {
+    public TicketServiceImpl(TicketRepository ticketRepository ) {
         this.ticketRepository = ticketRepository;
-        this.departamentoRepository = departamentoRepository;
     }
 
     @Override
