@@ -27,7 +27,11 @@ public class User {
 
     @Column(name = "roles")
     private String roles;
-    
+
+    @Column(name = "contato")
+    private String contato;
+
+
     public String getRoles() {
         return roles;
     }
@@ -41,8 +45,7 @@ public class User {
     @JoinColumn(name = "departamento_id")
     private Departament departamento;
 
-    @Column(name = "NumeroTel")
-    private String contato;
+    
 
 
     

@@ -19,7 +19,6 @@ public class Ticket {
     @Column(name = "detalhes")
     private String detalhes;
 
-    @Column(name = "contato")
     private String contato;
     
     @Column(name = "nome")

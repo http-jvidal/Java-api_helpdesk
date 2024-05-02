@@ -45,7 +45,6 @@ public class UserController {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
     }
     
-  
     @PostMapping("/")
     public ResponseEntity<String> saveUser(@RequestBody User user) {
         try {
