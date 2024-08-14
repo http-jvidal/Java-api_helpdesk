@@ -2,9 +2,13 @@ package api.helpdesk.services;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 import api.helpdesk.domain.models.User;
+import api.helpdesk.domain.models.dto.Login;
+import api.helpdesk.domain.models.dto.Sessao;
 
+@Service
 public interface UserService {
 
     Optional<User> findById (Long id);
@@ -23,7 +27,9 @@ public interface UserService {
 
     User findByUsername(String username);
 
-    User login(User user);
-    
-    String getUserRoles(User user);
+    void SaveUserWithEncrypt (User user);
+
+    boolean isValidUser(String username, String password);
+
+    Sessao Authenticate(Login login);
 }

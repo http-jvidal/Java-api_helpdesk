@@ -7,13 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import api.helpdesk.domain.models.User;
 import api.helpdesk.services.UserService;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class UserController {
 
     @Autowired
@@ -48,10 +47,10 @@ public class UserController {
     @PostMapping("/")
     public ResponseEntity<String> saveUser(@RequestBody User user) {
         try {
-            userService.saveUser(user);
+            userService.SaveUserWithEncrypt(user);
             return ResponseEntity.ok("Usuário salvo com sucesso!");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao salvar usuário: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao salvar usuário, " + e.getMessage());
         }
     }
 
@@ -77,19 +76,5 @@ public class UserController {
     }
 
 
-    @GetMapping("/roles/{username}")
-    public ResponseEntity<String> getRoles(@PathVariable String username){
-        try{
-            User user = userService.findByUsername(username);
-            if(user == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
-            }
-            
-            var userRoles = userService.getUserRoles(user);
-            return ResponseEntity.ok("Papéis de " + user.getUsername() + " são " + userRoles);
-        } catch(Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar papéis do usuário: " + e.getMessage());
-        }
-    }
     
 }

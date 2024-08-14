@@ -8,6 +8,7 @@ import api.helpdesk.domain.models.Ticket;
 
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
+    
     boolean existsById(Long id);
     List<Ticket> findAll();
 

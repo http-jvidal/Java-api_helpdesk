@@ -1,13 +1,18 @@
 package api.helpdesk.domain.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity(name = "users")
 public class User {
@@ -25,21 +30,16 @@ public class User {
     @Column(name = "senha")
     private String password;
 
-    @Column(name = "roles")
-    private String roles;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "tab_user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role_id")
+    private List<String> roles = new ArrayList<>();
+
 
     @Column(name = "contato")
     private String contato;
 
 
-    public String getRoles() {
-        return roles;
-    }
-
-
-    public void setRoles(String roles) {
-        this.roles = roles;
-    }
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "departamento_id")
@@ -48,19 +48,33 @@ public class User {
     
 
 
-    
+    public User(String name, String username, String password, List<String> roles, String contato,
+            Departament departamento) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+        this.contato = contato;
+        this.departamento = departamento;
+    }
+
+
+
 
     public User() {
     }
 
 
-    public User(String name, String username, String password,  Departament departament) {
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.departamento = departament;
+   
+
+    public List<String> getRoles() {
+        return roles;
+    }
+    public void setRoles(List<String> roles) {
+            this.roles = roles;
     }
 
+    
     public Long getId() {
         return id;
     }
