@@ -1,53 +1,61 @@
 package api.helpdesk.controller;
 
+
+
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import api.helpdesk.domain.models.User;
+import api.helpdesk.domain.models.dto.UserDTO;
 import api.helpdesk.services.UserService;
 
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin(origins = "*")
 public class UserController {
-
+    
     @Autowired
     private final UserService userService;
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/find/username/{username}")
-    public ResponseEntity<User> findByUsername(@PathVariable String username){
+    @GetMapping(value = "/username/{username}")
+    public ResponseEntity<UserDTO> findByUsername(@PathVariable String username){
         User user = userService.findByUsername(username);
         if(user != null){
-            return new ResponseEntity<User>(user, HttpStatus.OK);
+            UserDTO userDTO = user.toDTO();        
+            return new ResponseEntity<>(userDTO, HttpStatus.OK);
         } else {
-            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    
     @GetMapping(value = "/")
-    public List<User> FindAll(){
-        return userService.findAll();    
+    public ResponseEntity<List<UserDTO>> FindAll(){
+        List<UserDTO> userDTOs = userService.findAll();
+        return new ResponseEntity<>(userDTOs, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> findById(@PathVariable Long id){
-        Optional<User> user = userService.findById(id);
-        if(user.isPresent())
-            return new ResponseEntity<User>(user.get(), HttpStatus.OK);
+    public ResponseEntity<UserDTO> findById(@PathVariable Long id){
+        Optional<UserDTO> userDTO = userService.findById(id);
+        if(userDTO.isPresent()){
+            return new ResponseEntity<UserDTO>(userDTO.get(), HttpStatus.OK);
+        }
         else
-            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
     }
     
     @PostMapping("/")
     public ResponseEntity<String> saveUser(@RequestBody User user) {
         try {
-            userService.SaveUserWithEncrypt(user);
+            userService.saveUser(user);
             return ResponseEntity.ok("Usuário salvo com sucesso!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao salvar usuário, " + e.getMessage());
@@ -55,24 +63,24 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<User> deleteByIdUser (@PathVariable Long id){
-        Optional<User> userId = userService.findById(id);
+    public ResponseEntity<UserDTO> deleteByIdUser (@PathVariable Long id){
+        Optional<UserDTO> userId = userService.findById(id);
         if(userId.isPresent()){
             userService.delete(id);
             return ResponseEntity.noContent().build(); // ERRO 204 
         } else {
-            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user){
-        Optional<User> userId = userService.findById(id);
-        User res = userService.update(user);
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody User user){
+        Optional<UserDTO> userId = userService.findById(id);
+        UserDTO userDTO = userService.update(user);
         if(userId.isPresent())
-            return ResponseEntity.ok(res);
+            return ResponseEntity.ok(userDTO);
         else
-            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
     }
 
 

@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import api.helpdesk.domain.models.dto.UserDTO;
+
 @Entity(name = "users")
 public class User {
     @Id
@@ -35,18 +37,12 @@ public class User {
     @Column(name = "role_id")
     private List<String> roles = new ArrayList<>();
 
-
     @Column(name = "contato")
     private String contato;
-
-
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "departamento_id")
     private Departament departamento;
-
-    
-
 
     public User(String name, String username, String password, List<String> roles, String contato,
             Departament departamento) {
@@ -58,23 +54,17 @@ public class User {
         this.departamento = departamento;
     }
 
-
-
-
     public User() {
     }
 
-
-   
-
     public List<String> getRoles() {
         return roles;
+
     }
     public void setRoles(List<String> roles) {
             this.roles = roles;
     }
 
-    
     public Long getId() {
         return id;
     }
@@ -111,9 +101,21 @@ public class User {
         return departamento;
     }
 
+    public String getContato() {
+        return contato;
+    }
+
+    public void setContato(String contato) {
+        this.contato = contato;
+    }
+    
     public void setDepartamento(Departament departamento) {
         this.departamento = departamento;
     }
 
-    
+    public UserDTO toDTO(){
+        return new UserDTO(this.getId(), this.getName(), this.getUsername(), this.getRoles(),this.getContato(),this.getDepartamento());
+    }
+
+
 }

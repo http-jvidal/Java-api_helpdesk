@@ -3,7 +3,7 @@ package api.helpdesk.services.impl;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,6 +12,7 @@ import api.helpdesk.domain.models.Departament;
 import api.helpdesk.domain.models.User;
 import api.helpdesk.domain.models.dto.Login;
 import api.helpdesk.domain.models.dto.Sessao;
+import api.helpdesk.domain.models.dto.UserDTO;
 import api.helpdesk.domain.repository.DepartamentRepository;
 import api.helpdesk.domain.repository.UserRepository;
 import api.helpdesk.security.JWTCreator;
@@ -39,16 +40,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findById(Long id){
-        if(!userRepository.existsById(id)){
+    public Optional<UserDTO> findById(Long id) {
+        if (!userRepository.existsById(id)) {
             throw new IllegalArgumentException("Id Not Found");
         } else {
-            Optional<User> user  = userRepository.findById(id);
-            return user;
+            return userRepository.findById(id).map(User::toDTO);
         }
     }
 
-    public void SaveUserWithEncrypt(User user) {
+
+    public void saveUser(User user) {
         try {
             Departament existingDepartament = departamentRepository.findByName(user.getDepartamento().getName());
             if (existingDepartament == null) {
@@ -62,30 +63,38 @@ public class UserServiceImpl implements UserService {
                 user.setDepartamento(existingDepartament);
             }
     
-            saveUser(user);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
-    }
-    
-    public void saveUser(User user) {
+                // Verifica se usuário existe
         User userExist = userRepository.findByUsername(user.getUsername());
-        
+            
+            // Se não existir, cria um
         if (userExist == null) {
             // Novo usuário, codifica a senha e salva
             String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
-    
+
             userRepository.save(user);
             System.out.println("Usuário criado com sucesso ");
         } else {
             throw new RuntimeException(user.getUsername() + " já existe ");
         }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
     }
     
-    public List<User> findAll(){
-        List<User> res = userRepository.findAll();
-        return res;
+    
+    
+    public List<UserDTO> findAll(){
+        List<User> users = userRepository.findAll();
+        if(users == null){
+            throw new IllegalArgumentException("Repositorio vázio");
+        } else {
+            return users.stream()
+            .map(User::toDTO)
+                    .collect(Collectors.toList());
+
+        }
+        
         
     }
 
@@ -96,12 +105,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findByNameContainingIgnoreCase(String name) {
+    public List<UserDTO> findByNameContainingIgnoreCase(String name) {
         if(!userRepository.existsByName(name)){
             throw new IllegalArgumentException("This user not exists");
         } else {
-            List<User> res = userRepository.findByNameContainingIgnoreCase(name);
-            return res;
+            List<User> users = userRepository.findByNameContainingIgnoreCase(name);
+            return users.stream()
+                    .map(User::toDTO)
+                    .collect(Collectors.toList());
         }
         
     }
@@ -116,13 +127,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(User user) {
+    public UserDTO update(User user) {
         Optional<User> userId  = userRepository.findById(user.getId());
         if(!userId.isPresent()){
             throw new IllegalArgumentException("User not exists");
         } else {
-            final User userUpdate = userRepository.save(user);
-            return userUpdate;
+            User userUpdate = userRepository.save(user);
+            return userUpdate.toDTO();
         }
     }
 
@@ -131,7 +142,6 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUsername(username);
         return user;
     }
-
 
     @Override
     public boolean isValidUser(String username, String password) {
@@ -149,7 +159,7 @@ public class UserServiceImpl implements UserService {
 
         if (user != null) {
                 if (this.isValidUser(login.getUsername().toString(), login.getPassword().toString())) {
-                // Criação do token JWT
+
                 JWTObject jwtObject = new JWTObject();
                 jwtObject.setIssuedAt(new Date(System.currentTimeMillis()));
                 jwtObject.setExpiration(new Date(System.currentTimeMillis() + securityConfig.getEXPIRATION()));
@@ -157,7 +167,6 @@ public class UserServiceImpl implements UserService {
 
                 String token = JWTCreator.create(securityConfig.getPREFIX(), securityConfig.getKEY(), jwtObject);
 
-                // Criando e retornando a sessão com o token
                 Sessao sessao = new Sessao();
                 sessao.setLogin(user.getUsername());
                 sessao.setToken(token);
@@ -165,9 +174,10 @@ public class UserServiceImpl implements UserService {
                 System.out.println(token);
                 return sessao;
 
-                } else {
-                throw new RuntimeException("Senha incorreta para o usuário: " + login.getUsername());
-                }
+        } else {
+            throw new RuntimeException("Senha incorreta para o usuário: " + login.getUsername());
+        }
+
         } else {
                 throw new RuntimeException("Usuário não encontrado para o login: " + login.getUsername());
         }

@@ -3,10 +3,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import api.helpdesk.domain.models.User;
 import api.helpdesk.domain.models.dto.Login;
 import api.helpdesk.domain.models.dto.Sessao;
 import api.helpdesk.services.UserService;
@@ -36,9 +34,4 @@ public class LoginController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
-
-    
-
-    
-
 }

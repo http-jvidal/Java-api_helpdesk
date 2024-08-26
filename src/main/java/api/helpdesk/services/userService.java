@@ -7,27 +7,26 @@ import org.springframework.stereotype.Service;
 import api.helpdesk.domain.models.User;
 import api.helpdesk.domain.models.dto.Login;
 import api.helpdesk.domain.models.dto.Sessao;
+import api.helpdesk.domain.models.dto.UserDTO;
 
 @Service
 public interface UserService {
 
-    Optional<User> findById (Long id);
+    Optional<UserDTO> findById (Long id);
     
     void saveUser(User user);
 
-    List<User> findAll();
+    List<UserDTO> findAll();
     
     User findByName(String name);
 
-    List<User> findByNameContainingIgnoreCase(String name);
+    List<UserDTO> findByNameContainingIgnoreCase(String name);
 
     void delete(Long id);
 
-    User update ( User userDetails);
+    UserDTO update ( User userDetails);
 
     User findByUsername(String username);
-
-    void SaveUserWithEncrypt (User user);
 
     boolean isValidUser(String username, String password);
 
