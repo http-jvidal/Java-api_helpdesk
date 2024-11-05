@@ -1,6 +1,5 @@
 package api.helpdesk.domain.models.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Login {
 

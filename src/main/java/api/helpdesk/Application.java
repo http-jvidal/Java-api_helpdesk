@@ -6,7 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.HashSet;
-
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -22,9 +25,9 @@ import springfox.documentation.service.Contact;
 @EnableSwagger2
 public class Application  {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException,NoSuchAlgorithmException {
 		SpringApplication.run(Application.class, args);
-		System.out.println("Aplicação rodando");
+		System.out.println("Aplicacao rodando");
 	}
 
 	private Contact contato() {
@@ -51,7 +54,7 @@ public class Application  {
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2)
 			.select()
-			.apis(RequestHandlerSelectors.basePackage("com.jwt.teste.demo.controller")) 
+			.apis(RequestHandlerSelectors.any()) 
 			.paths(PathSelectors.any())
 			.build()
 			.apiInfo(apiInfo())

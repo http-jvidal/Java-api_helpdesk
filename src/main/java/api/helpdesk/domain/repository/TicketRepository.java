@@ -9,7 +9,10 @@ import api.helpdesk.domain.models.Ticket;
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
     
+    @SuppressWarnings("null")
     boolean existsById(Long id);
+
+    @SuppressWarnings("null")
     List<Ticket> findAll();
 
 }

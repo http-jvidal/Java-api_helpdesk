@@ -3,6 +3,9 @@ package api.helpdesk.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.websocket.OnMessage;
+import javax.websocket.server.ServerEndpoint;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,10 +18,16 @@ import api.helpdesk.domain.models.Chat;
 import api.helpdesk.services.ChatService;
 
 @CrossOrigin
-@RequestMapping("/api/chat")
+@ServerEndpoint("/websocket/chat")
 @RestController
 public class ChatController {
       private final ChatService chatService;
+
+      @OnMessage
+      public String onMessage(String message){
+            System.out.println("Mensagem recebida " + message);
+            return "Eco " + message;
+      }
 
       public ChatController(ChatService chatService) {
             this.chatService = chatService;
