@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import api.helpdesk.domain.models.Departament;
+import api.helpdesk.domain.models.User;
 
 public class UserDTO {
 
@@ -13,6 +14,8 @@ public class UserDTO {
       private String name;
 
       private String username;
+
+      private String password;
 
       private List<String> roles = new ArrayList<>();
 
@@ -93,5 +96,11 @@ public class UserDTO {
       public void setDepartamento(Departament departamento) {
             this.departamento = departamento;
       }
-      
+
+
+    public String getPassword() {
+        return password;
+    }
+
+
 }

@@ -1,5 +1,8 @@
 package api.helpdesk.domain.models;
 
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,16 +25,22 @@ public class Chat {
       @JoinColumn(name = "ticket_id")
       private Ticket ticket;
       
+      @Column(name = "mensagem")
       private String mensagem;
 
+      @Column(name = "created_at")
+      private LocalDateTime createdAt;
+
+     
       public Chat(){
-            
+            this.createdAt = LocalDateTime.now();
       }
       
       public Chat(User user, Ticket ticket, String mensagem) {
             this.user = user;
             this.ticket = ticket;
             this.mensagem = mensagem;
+            this.createdAt = LocalDateTime.now();
       }
 
       public Ticket getTicket() {
@@ -65,6 +74,14 @@ public class Chat {
 
       public void setMensagem(String mensagem) {
             this.mensagem = mensagem;
+      }
+
+      public LocalDateTime getCreatedAt() {
+            return createdAt;
+      }
+
+      public void setCreatedAt(LocalDateTime createdAt) {
+            this.createdAt = createdAt;
       }
 
 }

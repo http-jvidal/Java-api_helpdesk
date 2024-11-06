@@ -9,4 +9,7 @@ public interface ChatService {
       Optional<Chat> findById(Long id);
 
       List<Chat> findAll();
+
+
+      void saveChat(Chat chat);
 } 

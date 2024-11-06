@@ -32,5 +32,11 @@ public class ChatServiceImpl implements ChatService{
             return chatRepository.findAll();
       }
 
+      @Override
+      public void saveChat(Chat chat) {
+            chatRepository.save(chat);
+      }
+
+      
 
 }
