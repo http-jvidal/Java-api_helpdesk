@@ -25,12 +25,12 @@ public class UserController {
     }
 
     @GetMapping(value = "/username/{username}")
-    public ResponseEntity<User> findByUsername(@PathVariable String username){
-        User user = userService.findByUsername(username);
-        if(user != null){
-            return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<UserDTO> findByUsername(@PathVariable String username){
+        UserDTO userDTO = userService.findByUsername(username).toDTO();
+        if(userDTO != null){
+            return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
         }
     }
     
